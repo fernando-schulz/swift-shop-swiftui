@@ -2,7 +2,9 @@ import SwiftUI
 
 struct LoginViewController: View {
     
+    @EnvironmentObject var sessionManager: SessionManager
     @ObservedObject var viewModel: LoginViewModel
+    @State private var showToast = false
     
     var body: some View {
         NavigationView {
@@ -60,10 +62,18 @@ struct LoginViewController: View {
                     .cornerRadius(20)
                     .padding(.bottom, 6)
                     .sheet(isPresented: $viewModel.showModalSignIn) {
-                        SignUpViewController(viewModel: SignUpViewModel(), showModal: $viewModel.showModalSignIn)
+                        SignUpViewController(viewModel: {
+                            let signUpViewModel = SignUpViewModel()
+                            signUpViewModel.onUserRegistered = {
+                                showToast = true
+                            }
+                            return signUpViewModel
+                        }(), showModal: $viewModel.showModalSignIn)
                     }
+                    .toast(isPresented: $showToast, message: "Usuário cadastrado com sucesso!")
                     
-                    NavigationLink(destination: HomeViewController(), isActive: $viewModel.isLogged) {
+                    NavigationLink(destination: HomeViewController(viewModel: HomeViewModel(sessionManager: sessionManager)).environmentObject(sessionManager),
+                                   isActive: $sessionManager.isLogged) {
                         EmptyView()
                     }
                 }
@@ -92,6 +102,11 @@ struct LoginViewController: View {
 
 struct LoginViewController_Previews: PreviewProvider {
     static var previews: some View {
-        LoginViewController(viewModel: LoginViewModel())
+        
+        let mockSessionManager = SessionManager()
+        mockSessionManager.isLogged = false
+        
+        return LoginViewController(viewModel: LoginViewModel(sessionManager: mockSessionManager)
+        )
     }
 }

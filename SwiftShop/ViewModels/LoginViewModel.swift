@@ -10,12 +10,18 @@ import FirebaseAuth
 
 class LoginViewModel: ObservableObject {
     
+    private let sessionManager: SessionManager
+    
     @Published var usuario: String = ""
     @Published var senha: String = ""
     @Published var errorMessage: String?
     @Published var showErrorAlert: Bool = false
-    @Published var isLogged: Bool = false
+    //@Published var isLogged: Bool = false
     @Published var showModalSignIn: Bool = false
+    
+    init(sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
+    }
     
     func login() {
         Auth.auth().signIn(withEmail: usuario, password: senha) { authResult, error in
@@ -25,7 +31,8 @@ class LoginViewModel: ObservableObject {
                 return
             }
             
-            self.isLogged = true
+            //self.isLogged = true
+            self.sessionManager.isLogged = true
         }
     }
     

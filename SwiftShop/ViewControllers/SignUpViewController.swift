@@ -11,6 +11,7 @@ struct SignUpViewController: View {
     
     @ObservedObject var viewModel: SignUpViewModel
     @Binding var showModal: Bool
+    @State private var showErrorAlert: Bool = false
     
     var body: some View {
         VStack {
@@ -48,7 +49,15 @@ struct SignUpViewController: View {
                     .padding(.bottom, 10)
                     
                     Button(action: {
-                        viewModel.registrar()
+                        Task {
+                            await viewModel.registrar()
+                            
+                            if viewModel.errorMessage != nil {
+                                showErrorAlert = true
+                            } else {
+                                showModal = false
+                            }
+                        }
                     }) {
                         Text("Registrar")
                             .foregroundColor(.white)
@@ -65,6 +74,16 @@ struct SignUpViewController: View {
                 Spacer()
             }
             .padding(.top, getSafeAreaInsets()?.top ?? 0)
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Erro ao registrar"),
+                    message: Text(viewModel.errorMessage ?? "Erro ao registrar"),
+                    dismissButton: .default(Text("Fechar"), action: {
+                        viewModel.errorMessage = nil
+                        showErrorAlert = false
+                    })
+                )
+            }
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

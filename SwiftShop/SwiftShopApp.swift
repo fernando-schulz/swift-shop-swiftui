@@ -21,10 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct SwiftShopApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var sessionManager = SessionManager()
     
     var body: some Scene {
         WindowGroup {
-            LoginViewController(viewModel: LoginViewModel())
+            LoginViewController(viewModel: LoginViewModel(sessionManager: sessionManager)).environmentObject(sessionManager)
         }
     }
 }

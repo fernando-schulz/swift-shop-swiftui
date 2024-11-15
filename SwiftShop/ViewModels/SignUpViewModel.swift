@@ -13,19 +13,63 @@ class SignUpViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var senha: String = ""
     @Published var confirmarSenha: String = ""
+    @Published var errorMessage: String? = nil
+    //@Published var showErrorAlert: Bool = false
     
-    func registrar() {
-        Auth.auth().createUser(withEmail: email, password: senha) { authResult, error in
+    var onUserRegistered: (() -> Void)?
+    
+    func registrar() async {
+        
+        if email.isEmpty {
+            self.errorMessage = "Informe o e-mail"
+            return
+        }
+        
+        if senha.isEmpty {
+            self.errorMessage = "Informe a senha"
+            return
+        }
+        
+        if confirmarSenha.isEmpty {
+            self.errorMessage = "Confirme a senha"
+            return
+        }
+        
+        if senha != confirmarSenha {
+            self.errorMessage = "As senhas informadas não estão iguais"
+            return
+        }
+        
+        do {
+            _ = try await createUser(withEmail: email, password: senha)
+            errorMessage = nil
+            onUserRegistered?()
+        } catch {
+            errorMessage = "Erro: \(error.localizedDescription)"
+        }
+        
+        /*Auth.auth().createUser(withEmail: email, password: senha) { authResult, error in
             if let error = error {
-                //self.errorMessage = "Error: \(error.localizedDescription)"
                 print("Error: \(error.localizedDescription)")
+                self.errorMessage = "Erro: \(error.localizedDescription)"
             } else {
                 print("Usuário registrado com sucesso")
+                self.onUserRegistered?()
             }
-            
-            //voltar tela
-            //verificar erro de usuario
-            //implementar mensagem de erro
+        }*/
+    }
+    
+    private func createUser(withEmail email: String, password: String) async throws -> AuthDataResult {
+        try await withCheckedThrowingContinuation { continuation in
+            Auth.auth().createUser(withEmail: email, password: senha) { authResult, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else if let authResult = authResult {
+                    continuation.resume(returning: authResult)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "FirebaseAuthError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Erro inesperado na criação do usuário"]))
+                }
+            }
         }
     }
 }

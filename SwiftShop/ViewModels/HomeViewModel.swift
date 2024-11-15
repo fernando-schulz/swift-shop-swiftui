@@ -1,0 +1,18 @@
+//
+//  HomeViewModel.swift
+//  SwiftShop
+//
+//  Created by Fernando Schulz on 15/11/24.
+//
+
+import Foundation
+
+class HomeViewModel: ObservableObject {
+    
+    private var sessionManager: SessionManager
+    
+    init(sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
+    }
+    
+}
