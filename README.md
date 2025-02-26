@@ -27,10 +27,10 @@ Este projeto **não possui dependências externas**, como web services. Basta ro
 ## 📸 Imagens
 
 <p align="center">
-  <img src="swift-shop-swiftui/SwiftShop/Assets.xcassets/app-gif.dataset/app-gif.gif" alt="GIF do App" width="300" style="margin-right: 20px;"/>
-  <img src="swift-shop-swiftui/SwiftShop/Assets.xcassets/app-1.imageset/app-1.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
-  <img src="swift-shop-swiftui/SwiftShop/Assets.xcassets/app-2.imageset/app-2.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
-  <img src="swift-shop-swiftui/SwiftShop/Assets.xcassets/app-3.imageset/app-3.png" alt="Adição de Tarefa" width="300"/>
+  <img src="SwiftShop/Assets.xcassets/app-gif.dataset/app-gif.gif" alt="GIF do App" width="300" style="margin-right: 20px;"/>
+  <img src="SwiftShop/Assets.xcassets/app-1.imageset/app-1.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
+  <img src="SwiftShop/Assets.xcassets/app-2.imageset/app-2.png" alt="Tela Principal" width="300" style="margin-right: 20px;"/>
+  <img src="SwiftShop/Assets.xcassets/app-3.imageset/app-3.png" alt="Adição de Tarefa" width="300"/>
 </p>
 
 ## 🚀 Como Rodar o Projeto
