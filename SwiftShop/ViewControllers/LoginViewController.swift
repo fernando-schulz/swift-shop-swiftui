@@ -97,6 +97,9 @@ struct LoginViewController: View {
             .background(Color("BackgroundLogin"))
             .edgesIgnoringSafeArea(.all)
         }
+        .onAppear {
+            viewModel.verifyUserIsLogged()
+        }
     }
 }
 

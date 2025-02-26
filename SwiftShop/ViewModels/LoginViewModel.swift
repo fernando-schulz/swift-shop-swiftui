@@ -16,7 +16,6 @@ class LoginViewModel: ObservableObject {
     @Published var senha: String = ""
     @Published var errorMessage: String?
     @Published var showErrorAlert: Bool = false
-    //@Published var isLogged: Bool = false
     @Published var showModalSignIn: Bool = false
     
     init(sessionManager: SessionManager) {
@@ -38,5 +37,11 @@ class LoginViewModel: ObservableObject {
     
     func toggleShowModalSignIn() {
         showModalSignIn.toggle()
+    }
+    
+    func verifyUserIsLogged() {
+        if Auth.auth().currentUser != nil {
+            self.sessionManager.isLogged = true
+        }
     }
 }

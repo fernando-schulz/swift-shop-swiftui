@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class HomeViewModel: ObservableObject {
     
@@ -13,6 +14,15 @@ class HomeViewModel: ObservableObject {
     
     init(sessionManager: SessionManager) {
         self.sessionManager = sessionManager
+    }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            sessionManager.isLogged = false
+        } catch let signOutError as NSError {
+            print("Erro ao deslogar: \(signOutError.localizedDescription)")
+        }
     }
     
 }

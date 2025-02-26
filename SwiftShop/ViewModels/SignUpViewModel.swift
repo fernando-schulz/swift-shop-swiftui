@@ -14,7 +14,6 @@ class SignUpViewModel: ObservableObject {
     @Published var senha: String = ""
     @Published var confirmarSenha: String = ""
     @Published var errorMessage: String? = nil
-    //@Published var showErrorAlert: Bool = false
     
     var onUserRegistered: (() -> Void)?
     
@@ -47,16 +46,6 @@ class SignUpViewModel: ObservableObject {
         } catch {
             errorMessage = "Erro: \(error.localizedDescription)"
         }
-        
-        /*Auth.auth().createUser(withEmail: email, password: senha) { authResult, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                self.errorMessage = "Erro: \(error.localizedDescription)"
-            } else {
-                print("Usuário registrado com sucesso")
-                self.onUserRegistered?()
-            }
-        }*/
     }
     
     private func createUser(withEmail email: String, password: String) async throws -> AuthDataResult {

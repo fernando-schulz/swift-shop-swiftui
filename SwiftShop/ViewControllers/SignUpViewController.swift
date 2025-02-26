@@ -35,14 +35,16 @@ struct SignUpViewController: View {
                     .padding(.bottom, 6)
                     
                     CustomTextField(label: "Senha", placeholder: "Senha", text: $viewModel.senha) {
-                        TextField("Senha", text: $viewModel.senha)
+                        SecureField("Senha", text: $viewModel.senha)
+                            .textContentType(.oneTimeCode)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
                     .padding(.bottom, 6)
                     
                     CustomTextField(label: "Confirmar Senha", placeholder: "Confirmar Senha", text: $viewModel.confirmarSenha) {
-                        TextField("Confirmar Senha", text: $viewModel.confirmarSenha)
+                        SecureField("Confirmar Senha", text: $viewModel.confirmarSenha)
+                            .textContentType(.oneTimeCode)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
                     }
@@ -100,7 +102,7 @@ struct SignInViewController_Previews: PreviewProvider {
 }
 
 struct SignInPreview: View {
-    @State private var showModal = true // Alterar para true se você quiser visualizar o modal
+    @State private var showModal = true
     
     var body: some View {
         SignUpViewController(viewModel: SignUpViewModel(), showModal: $showModal)

@@ -15,3 +15,14 @@ func getSafeAreaInsets() -> UIEdgeInsets? {
     
     return window.safeAreaInsets
 }
+
+func formatPriceBRL(_ price: Double) -> String {
+    let formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: "pt_BR")
+    formatter.numberStyle = .currency
+    formatter.currencySymbol = "R$"
+    formatter.maximumFractionDigits = 2
+    formatter.minimumFractionDigits = 2
+    
+    return formatter.string(from: NSNumber(value: price))?.replacingOccurrences(of: "R$", with: "") ?? "0,00"
+}
